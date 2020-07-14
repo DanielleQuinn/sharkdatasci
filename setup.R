@@ -15,7 +15,15 @@ data <- rawdata %>%
                                      "Greenland Shark",
                                      "Spiny Dogfish",
                                      "Barndoor Skate")))
-
+set.seed(123)
+subdata <- rawdata %>%
+  mutate(species = factor(species, c("Deep Water Catshark",
+                                     "Greenland Shark",
+                                     "Spiny Dogfish",
+                                     "Barndoor Skate"))) %>%
+  group_by(species) %>%
+  slice_sample(prop = 0.25)
+  
 
 # Build Functions
 bargraph_sharks <- function(colour1 = "darkorange", colour2 = "purple", colour3 = "olivedrab3", colour4 = "firebrick3")
@@ -28,3 +36,40 @@ bargraph_sharks <- function(colour1 = "darkorange", colour2 = "purple", colour3 
   return(bargraph1)
 }
 
+draw_ocean <- function()
+{
+  ocean <<- ggplot(floordata) +
+    geom_rect(xmax = 150, xmin = -max(floordata$rank), ymin = -500, ymax = 0, fill = "deepskyblue2") +
+    geom_rect(xmax = 150, xmin = -max(floordata$rank), ymin = -1000, ymax = -500, fill = "deepskyblue3") +
+    geom_rect(xmax = 150, xmin = -max(floordata$rank), ymin = -1500, ymax = -1000, fill = "deepskyblue4") +
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    ylab("Depth") + xlab("") +
+    geom_polygon(aes(y = -depth, x = -rank), col = 'black', fill = 'burlywood4') +
+    theme(axis.ticks = element_blank(), axis.text.x = element_blank()) +
+    theme_bw(13)
+  return(ocean)
+}
+
+add_sharks<-function()
+{
+  plot1 <<- ocean + 
+    geom_point(aes(y = jitter(-depth) + 40, x = -rank + 100, fill = species), col = 'black', shape = 21, size = 5, data = subdata) +
+    facet_wrap(~species) +
+    scale_fill_manual(values=c("olivedrab3","darkorange","purple","firebrick3"), guide = FALSE)
+  return(plot1)
+}
+
+mycols <- data.frame(species = c("Spiny Dogfish","Deep Water Catshark",
+                                 "Greenland Shark", "Barndoor Skate"),
+                     colour = c("olivedrab3","darkorange","purple","firebrick3"))
+
+by_season<-function(Species)
+{
+  plot2<<-ocean + geom_point(aes(y = jitter(-depth) + 40,
+                                 x = -rank + 100), fill = mycols$colour[mycols$species == Species],
+                             col = 'black', shape = 21, size = 5,
+                             data = subdata %>% filter(species == Species)) +
+    facet_wrap(~season) + ggtitle(Species) +
+    theme(legend.position = "none")
+  return(plot2)
+}
