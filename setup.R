@@ -18,12 +18,13 @@ data <- rawdata %>%
 
 
 # Build Functions
-bargraph_sharks <- function(x = 12)
+bargraph_sharks <- function(colour1 = "darkorange", colour2 = "purple", colour3 = "olivedrab3", colour4 = "firebrick3")
 {
   bargraph1 <<- ggplot(data) +
     geom_bar(aes(x = species, fill = species), col = "black") +
-    scale_fill_manual(values = c("darkorange", "purple", "olivedrab3", "firebrick3")) +
-    theme_bw(x) + ylab("Count") + xlab("") +
+    scale_fill_manual(values = c(colour1, colour2, colour3, colour4)) +
+    theme_bw(12) + ylab("Count") + xlab("") +
     theme(legend.position = "none")
   return(bargraph1)
 }
+
