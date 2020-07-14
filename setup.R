@@ -2,7 +2,12 @@
 library(tidyverse)
 
 # Data Import / Modification
-rawdata <- read.csv("sharkdata.csv")
+rawdata <- read.csv("sharkdata.csv") %>%
+  mutate(species = factor(species, c("Deep Water Catshark",
+                                     "Greenland Shark",
+                                     "Spiny Dogfish",
+                                     "Barndoor Skate")))
+
 floordata <- rawdata %>%
   arrange(desc(depth)) %>%
   mutate(rank = 1:nrow(.)) %>%
@@ -10,19 +15,12 @@ floordata <- rawdata %>%
   add_row(rank = max(.$rank), depth = 1500, .before = 1)
 rawdata <- left_join(rawdata, floordata)
 data <- rawdata %>%
-  select(-1, -rank) %>%
-  mutate(species = factor(species, c("Deep Water Catshark",
-                                     "Greenland Shark",
-                                     "Spiny Dogfish",
-                                     "Barndoor Skate")))
+  select(-1, -rank)
+
 set.seed(123)
 subdata <- rawdata %>%
-  mutate(species = factor(species, c("Deep Water Catshark",
-                                     "Greenland Shark",
-                                     "Spiny Dogfish",
-                                     "Barndoor Skate"))) %>%
   group_by(species) %>%
-  slice_sample(prop = 0.25)
+  slice_sample(prop = 0.1)
   
 
 # Build Functions
@@ -53,9 +51,11 @@ draw_ocean <- function()
 add_sharks<-function()
 {
   plot1 <<- ocean + 
-    geom_point(aes(y = jitter(-depth) + 40, x = -rank + 100, fill = species), col = 'black', shape = 21, size = 5, data = subdata) +
+    geom_point(aes(y = jitter(-depth) + 40, 
+                   x = -rank + 100, fill = species), 
+               col = 'black', shape = 21, size = 5, data = subdata) +
     facet_wrap(~species) +
-    scale_fill_manual(values=c("olivedrab3","darkorange","purple","firebrick3"), guide = FALSE)
+    scale_fill_manual(values=c("darkorange","purple", "olivedrab3", "firebrick3"), guide = FALSE)
   return(plot1)
 }
 
