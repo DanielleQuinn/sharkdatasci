@@ -20,7 +20,7 @@ data <- rawdata %>%
 set.seed(123)
 subdata <- rawdata %>%
   group_by(species) %>%
-  slice_sample(prop = 0.1)
+  sample_frac(size = 0.1)
   
 
 # Build Functions
