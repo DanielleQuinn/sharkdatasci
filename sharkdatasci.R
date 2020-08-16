@@ -8,7 +8,8 @@ source("setup.R")
 #### Visualize this data
 count(data, year) %>%
      ggplot() +
-     geom_bar(aes(x = year, y = n)) +
+     geom_bar(aes(x = year, y = n), stat = "identity") +
+     geom_smooth(aes(x = year, y = n), stat = "identity", method = "glm") +
      theme_bw() +
      labs(x = "Year", y = "Number Caught")
 
@@ -17,7 +18,8 @@ count(data, year) %>%
 #### Visualize this data
 count(data, species) %>%
      ggplot() +
-     geom_bar(aes(x = species, y = n)) +
+     geom_bar(aes(x = species, y = n), stat = "identity") +
+     geom_smooth(aes(x = species, y = n), stat = "identity") +
      theme_bw() +
      labs(x = "Species", y = "Number Caught")
 
@@ -26,16 +28,15 @@ count(data, species) %>%
 #### Visualize this data
 count(data, year, species) %>%
      ggplot() +
-     geom_bar(aes(x = year, y = n)) +
+     geom_bar(aes(x = year, y = n), stat = "identity") +
+     geom_smooth(aes(x = year, y = n), stat = "identity", method = "glm") +
      theme_bw() +
      labs(x = "Year", y = "Number Caught") +
-     facet_wrap(~year)
+     facet_wrap(~species)
 
 ## What depths do these species live?
 ### 1. Draw the Ocean Floor
 
-
 ### 2. Add the Shark Data
-
 
 ### 3. Visualize the Movement of a Species By Season
