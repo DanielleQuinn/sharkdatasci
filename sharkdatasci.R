@@ -1,19 +1,41 @@
 ## Prepare Our Workspace ##
 source("setup.R")
 
-## Write Instructions to Count All Sharks ##
+## How many sharks did we catch in total?
+
+## How many sharks did we catch each year?
+
+#### Visualize this data
+count(data, year) %>%
+     ggplot() +
+     geom_bar(aes(x = year, y = n)) +
+     theme_bw() +
+     labs(x = "Year", y = "Number Caught")
+
+## How many of each species did we catch?
+
+#### Visualize this data
+count(data, species) %>%
+     ggplot() +
+     geom_bar(aes(x = species, y = n)) +
+     theme_bw() +
+     labs(x = "Species", y = "Number Caught")
+
+## How many of each species did we catch each year?
+
+#### Visualize this data
+count(data, year, species) %>%
+     ggplot() +
+     geom_bar(aes(x = year, y = n)) +
+     theme_bw() +
+     labs(x = "Year", y = "Number Caught") +
+     facet_wrap(~year)
+
+## What depths do these species live?
+### 1. Draw the Ocean Floor
 
 
-## Write Instructions to Count Each Species ##
+### 2. Add the Shark Data
 
 
-## Visualize the Data Using a Bar Graph ##
-
-
-## Visualize the Data by Drawing the Ocean Floor ##
-
-
-## Add the Shark Data to the Ocean Graph ##
-
-
-## Visualize the Movement of a Species By Season ##
+### 3. Visualize the Movement of a Species By Season
