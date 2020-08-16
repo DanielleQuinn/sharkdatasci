@@ -1,42 +1,61 @@
-## Prepare Our Workspace ##
+# ---- Prepare Our Workspace ----
 source("setup.R")
 
-## How many sharks did we catch in total?
+# ---- How many sharks did we catch in total? ----
 
-## How many sharks did we catch each year?
 
-#### Visualize this data
+# ---- How many sharks did we catch each year? ----
+
+
+## Visualize this data
 count(data, year) %>%
-     ggplot() +
-     geom_bar(aes(x = year, y = n), stat = "identity") +
-     geom_smooth(aes(x = year, y = n), stat = "identity", method = "glm") +
-     theme_bw() +
-     labs(x = "Year", y = "Number Caught")
+        ggplot(aes(x = year, y = n)) +
+        geom_point() +
+        geom_line() +
+        theme_bw() +
+        labs(x = "Year", y = "Number Caught")
 
-## How many of each species did we catch?
+# ---- How many of each species did we catch? ----
 
-#### Visualize this data
+
+
+## Visualize this data
 count(data, species) %>%
-     ggplot() +
-     geom_bar(aes(x = species, y = n), stat = "identity") +
-     geom_smooth(aes(x = species, y = n), stat = "identity") +
-     theme_bw() +
-     labs(x = "Species", y = "Number Caught")
+        ggplot(aes(x = species, y = n)) +
+        geom_bar(stat = "identity") +
+        theme_bw() +
+        labs(x = "Species", y = "Number Caught")
 
-## How many of each species did we catch each year?
+# ---- How many Barndoor Skate did we catch in 2010? ----
+data %>%
+        filter(year == 2010) %>%
+        filter(species == "Barndoor Skate") %>%
+        count()
 
-#### Visualize this data
-count(data, year, species) %>%
-     ggplot() +
-     geom_bar(aes(x = year, y = n), stat = "identity") +
-     geom_smooth(aes(x = year, y = n), stat = "identity", method = "glm") +
-     theme_bw() +
-     labs(x = "Year", y = "Number Caught") +
-     facet_wrap(~species)
+# ---- How many Greenland Shark did we catch in 2015? ----
 
-## What depths do these species live?
-### 1. Draw the Ocean Floor
 
-### 2. Add the Shark Data
 
-### 3. Visualize the Movement of a Species By Season
+# ---- Between 2010 and 2015, how many Spiny Dogfish did we catch?
+data %>%
+        filter(between(year, 2010, 2015)) %>%
+        filter(species == "Spiny Dogfish") %>%
+        count(year)
+
+## Visualize this data
+data %>%
+        filter(between(year, 2010, 2015)) %>%
+        filter(species == "Spiny Dogfish") %>%
+        count(year) %>%
+        ggplot(aes(x = year, y = n)) +
+        geom_point() +
+        geom_line() +
+        theme_bw() +
+        labs(x = "Year", y = "Number Caught")
+
+# ---- What depths do these species live? ----
+## 1. Draw the Ocean Floor
+
+## 2. Add the Shark Data
+
+## 3. Visualize the Movement of a Species By Season
