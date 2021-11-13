@@ -6,15 +6,19 @@ source("setup.R")
 
 # ---- How many of each species did we catch? ----
 
+
 ## Visualize this data (shortcut code!)
 
 
 ## Visualize this data (all of the code!)
 count(data, species) %>%
-        ggplot(aes(x = species, y = n)) +
-        geom_bar(stat = "identity") +
-        theme_bw() +
-        labs(x = "Species", y = "Number Caught")
+    ggplot() +
+         geom_bar(aes(x = species, y = n, fill = species), col = "black", stat = "identity") +
+         scale_fill_manual(values = c("darkorange", "purple", "olivedrab3", "firebrick3")) +
+         theme_bw(12) +
+         ylab("Number Caught") +
+         xlab("Species") +
+         theme(legend.position = "none")
 
 # ---- What depths do these species live? ----
 ## 1. Draw the Ocean Floor
@@ -42,8 +46,6 @@ data %>%
         count()
 
 # ---- How many Greenland Shark did we catch in 2015? ----
-
-
 
 # ---- Between 2010 and 2015, how many Spiny Dogfish did we catch?
 data %>%
