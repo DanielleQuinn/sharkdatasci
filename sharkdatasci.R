@@ -1,14 +1,19 @@
 # ---- Prepare Our Workspace ----
 source("setup.R")
 
+View(data)
+
 # ---- How many sharks did we catch in total? ----
+count(data)
+
+distinct(data, species)
 
 
 # ---- How many of each species did we catch? ----
-
+count(data, species)
 
 ## Visualize this data (shortcut code!)
-
+bargraph_sharks( c( "darkorchid4", "darkorchid2", "goldenrod", "hotpink" )  )
 
 ## Visualize this data (all of the code!)
 count(data, species) %>%
